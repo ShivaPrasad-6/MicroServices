@@ -15,13 +15,19 @@ import javax.persistence.Column;
 	  private int phone;
 	  private String email;
 	  private String usertype;
+	  public String getProfileimage() {
+		return profileimage;
+	}
+	public void setProfileimage(String profileimage) {
+		this.profileimage = profileimage;
+	}
+	public String profileimage;  
 	  
 	  @Override
-		public String toString() {
-			return "User [username=" + username + ", password=" + password + ",  "
-					+ "confirm=" + confirm + ", phone=" + phone + ", email=" + email + ","
-							+ " usertype=" + usertype + "]";
-		}
+	public String toString() {
+		return "User [username=" + username + ", password=" + password + ", confirm=" + confirm + ", phone=" + phone
+				+ ", email=" + email + ", usertype=" + usertype + ", profileimage=" + profileimage + "]";
+	}
 	 public String getUsertype() {
 		return usertype;
 	}

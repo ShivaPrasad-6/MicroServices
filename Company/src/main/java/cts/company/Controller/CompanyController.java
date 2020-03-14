@@ -13,13 +13,9 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import cts.company.JSONCompanyClient;
 import cts.company.dao.CompanyRepository;
 import cts.company.pojo.Company;
-
-
-
-
-
 @CrossOrigin(origins="http://localhost:4200")
 @RestController
 @RequestMapping("/Company")
@@ -27,6 +23,9 @@ public class CompanyController {
 	
 	@Autowired
 	private CompanyRepository companyRepository;
+	
+	 @Autowired
+	 JSONCompanyClient jcompany;
 	
 	@RequestMapping("/getAllCompanies")
 	public Iterable<Company> getAllCompanies(){
@@ -58,7 +57,9 @@ public class CompanyController {
 	@GetMapping("/findOneInAll1/{companyname}")
 	public Company findoneinall(@PathVariable("companyname") String companyname) {
 		Optional<Company> company = companyRepository.findById(companyname);
-		System.out.println("find one in all "+company.get());
+		Company comp=company.get();
+		 comp.setStockPriceList(jcompany.findByCompanyname(companyname));
+	
 		return company.get();
 	}
 	

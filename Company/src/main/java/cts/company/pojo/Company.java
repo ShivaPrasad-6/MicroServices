@@ -1,9 +1,12 @@
 package cts.company.pojo;
 
+import java.util.List;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 @Entity
 @Table(name="company")
 public class Company {
@@ -19,13 +22,22 @@ public class Company {
 	  private String sector;
 	  private String remarks;
 	  private int stockcode;
+	  @Transient
+	  List<StockPrice> stockPriceList;
 	  
-	  @Override
-		public String toString() {
-			return "Companies [companyname=" + companyname + ", turnover=" + turnover + ", ceoname=" + ceoname + ", bod="
-					+ bod + ", listedinse=" + listedinse + ", sector=" + sector + ", remarks=" + remarks + ", stockcode="
-					+ stockcode + "]";
-		}
+	  public List<StockPrice> getStockPriceList() {
+		return stockPriceList;
+	}
+	public void setStockPriceList(List<StockPrice> stockPriceList) {
+		this.stockPriceList = stockPriceList;
+	}
+	
+	@Override
+	public String toString() {
+		return "Company [companyname=" + companyname + ", turnover=" + turnover + ", ceoname=" + ceoname + ", bod="
+				+ bod + ", listedinse=" + listedinse + ", sector=" + sector + ", remarks=" + remarks + ", stockcode="
+				+ stockcode + "]";
+	}
 	  public String getCompanyname() {
 			return companyname;
 		}

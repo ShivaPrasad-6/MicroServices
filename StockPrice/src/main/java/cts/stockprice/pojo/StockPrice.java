@@ -16,18 +16,15 @@ import javax.persistence.Table;
 
 public class StockPrice {
 
-	@Id
+	
 	private String companyname;
 	
 	@Override
-
 	public String toString() {
-
 		return "StockPrice [companyname=" + companyname + ", stockexchange=" + stockexchange + ", currentprice="
-
-				+ currentprice + ", date=" + date + ", time=" + time + "]";
-
+				+ currentprice + ", date=" + date + ", time=" + time + ", uploadfile=" + uploadfile + "]";
 	}
+	@Id
 	private String stockexchange;
 	public String getStockexchange() {
 		return stockexchange;
@@ -36,10 +33,20 @@ public class StockPrice {
 	public void setStockexchange(String stockexchange) {
 		this.stockexchange = stockexchange;
 	}
-	private String currentprice;
+	private Integer currentprice;
 	private String date;
 	private String time;
 	
+	private String uploadfile; 
+	
+
+	public String getUploadfile() {
+		return uploadfile;
+	}
+
+	public void setUploadfile(String uploadfile) {
+		this.uploadfile = uploadfile;
+	}
 
 	public String getCompanyname() {
 
@@ -55,13 +62,13 @@ public class StockPrice {
 
 	
 
-	public String getCurrentprice() {
+	public Integer getCurrentprice() {
 
 		return currentprice;
 
 	}
 
-	public void setCurrentprice(String currentprice) {
+	public void setCurrentprice(Integer currentprice) {
 
 		this.currentprice = currentprice;
 

@@ -1,7 +1,14 @@
 package cts.user.Controller;
 
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.List;
 import java.util.Optional;
+
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -11,7 +18,9 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 
 import cts.user.Email.EmailService;
 import cts.user.dao.UserRepository;
@@ -34,11 +43,10 @@ public class UserController {
 	public User saveUser(@RequestBody User user) {
 		System.out.println(user);
 		userRepository.save(user);
-		
 		StringBuffer mailContain= new StringBuffer();
 		mailContain.append("Hi "+user.getUsername()+"\n");
 		mailContain.append("Please Click on Below Click to Confirm Your Email With Us\n");
-		mailContain.append("<a href='http://localhost:8096/UserPortal/confirmEmail/"+user.getEmail()+">Click</a>\n");
+		mailContain.append("<a href='http://localhost:8099/User/UserPortal/confirmEmail/"+user.getEmail()+">Click</a>\n");
 		mailContain.append("Thanks And Regards\n CTS Participant\n");
 		
 		emailService.sendMail(user.getEmail(),"Email Confirmation", mailContain.toString());
@@ -91,5 +99,28 @@ public class UserController {
 	User user= userRepository.findByUsernameAndPasswordAndConfirm(username, password,"yes");
 	 return user;
 	 }
+	
+	@PostMapping("/uploadImage/{username}")
+	
+	 public int handleFileUpload(@PathVariable("username") String username, @RequestParam("file") MultipartFile file, HttpSession session) {
+		
+	 Path rootLocation = Paths.get(session.getServletContext().getRealPath("/resources/images"));
+
+	  System.out.println("rootLocation == " + rootLocation);
+
+	  String nameExtension[] = file.getContentType().split("/");
+	  
+	  String profileimage = System.currentTimeMillis() + "." + nameExtension[1];
+
+     try {
+    	 
+    	 Files.copy(file.getInputStream(), rootLocation.resolve(profileimage));
+    	 System.out.println("ProfileImage :: " + profileimage);
+	  
+	 }
+     catch (Exception exception) {
+	 }
+	 return 1;
+	}  
 	
 }
